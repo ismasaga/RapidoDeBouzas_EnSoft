@@ -1,5 +1,14 @@
 package comunicacion_sistema_central;
 
-public interface InterfazComunicacionSistemaCentral {
+import java.util.ArrayList;
+import main.*;
 
+public interface InterfazComunicacionSistemaCentral {
+	public boolean escribirTiempoAleatorio(Camion c);
+	public boolean escribirConfirmacionEntrega(Paquete p);
+	public ArrayList<Paquete> solicitarPaquetesAEntregar();
+	public Paquete solicitarDevolucion();
+	public boolean notificarDetencion(Camion c);
+	public ArrayList<String> listarParadas();
+	public void confirmarPaquete(Paquete p);
 }

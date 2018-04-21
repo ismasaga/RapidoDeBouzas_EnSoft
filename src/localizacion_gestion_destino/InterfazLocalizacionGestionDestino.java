@@ -1,41 +1,53 @@
 package localizacion_gestion_destino;
 
 import java.util.ArrayList;
-
-import main.Destino;
-import main.Fecha;
-import main.Tiempo;
+import main.*;
 
 public interface InterfazLocalizacionGestionDestino {
+
+	public Camion recibirCamion();
+
 	public void anadirDestino(Destino d);
 
-	public Fecha buscarFecha(Destino d);
+	public void imprimirDestinos();
 
-	public Tiempo calcularTiempoDetenido();
+	public void imprimirDestino(Destino d);
 
-	public Tiempo calcularTiempoMovimiento();
+	public void imprimirTiempo(Tiempo t);
 
-	public Integer calcularNumeroParadas();
+	public Tiempo buscarFecha(Destino d);
 
-	public Float calcularNumeroKilometros();
+	public Destino siguienteDestino();
 
-	public Float calcularMediaVelocidad();
+	public ArrayList<Destino> listarDestinos();
 
-	public Float calcularMediaParadas();
+	public void moverCamion(); // para poder probalo, despois quitalo
 
-	public Tiempo calcularMediaTiempoParada();
-
-	public Tiempo calcularMediaTiempoEntrega();
-
-	public Tiempo calcularMediaTiempoRecogida();
-
-	public ArrayList<Tiempo> getTiemposDesplazamiento();
-
-	public ArrayList<Tiempo> getTiemposDesplazamientosAcum();
-
-	public Float getPorcentajeTiempoParadas();
-
-	public Float getPorcentajeTiempoMovimiento();
-
-	public Float getPorcentajeTiempoEntregas();
+	// public Tiempo calcularTiempoDetenido();
+	//
+	// public Tiempo calcularTiempoMovimiento();
+	//
+	// public Integer calcularNumeroParadas();
+	//
+	// public Float calcularNumeroKilometros();
+	//
+	// public Float calcularMediaVelocidad();
+	//
+	// public Float calcularMediaParadas();
+	//
+	// public Tiempo calcularMediaTiempoParada();
+	//
+	// public Tiempo calcularMediaTiempoEntrega();
+	//
+	// public Tiempo calcularMediaTiempoRecogida();
+	//
+	// public ArrayList<Tiempo> getTiemposDesplazamiento();
+	//
+	// public ArrayList<Tiempo> getTiemposDesplazamientosAcum();
+	//
+	// public Float getPorcentajeTiempoParadas();
+	//
+	// public Float getPorcentajeTiempoMovimiento();
+	//
+	// public Float getPorcentajeTiempoEntregas();
 }
