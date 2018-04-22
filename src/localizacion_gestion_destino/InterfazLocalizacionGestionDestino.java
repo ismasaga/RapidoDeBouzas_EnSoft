@@ -21,8 +21,6 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public ArrayList<Destino> listarDestinos();
 
-	public void moverCamion(); // para poder probalo, despois quitalo
-
 	// public Tiempo calcularTiempoDetenido();
 	//
 	// public Tiempo calcularTiempoMovimiento();
