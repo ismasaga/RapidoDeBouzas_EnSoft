@@ -21,20 +21,20 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public ArrayList<Destino> listarDestinos();
 
-	// public Tiempo calcularTiempoDetenido();
-	//
-	// public Tiempo calcularTiempoMovimiento();
-	//
-	// public Integer calcularNumeroParadas();
-	//
-	// public Float calcularNumeroKilometros();
-	//
-	// public Float calcularMediaVelocidad();
-	//
-	// public Float calcularMediaParadas();
-	//
-	// public Tiempo calcularMediaTiempoParada();
-	//
+	public Tiempo calcularTiempoDetenido();
+
+	public Tiempo calcularTiempoMovimiento();
+
+	public Integer calcularNumeroParadas();
+
+	public Float calcularNumeroKilometros();
+
+	public Float calcularMediaVelocidad();
+
+	 public Float calcularMediaParadas();
+	
+	 public Tiempo calcularMediaTiempoParada();
+	
 	// public Tiempo calcularMediaTiempoEntrega();
 	//
 	// public Tiempo calcularMediaTiempoRecogida();
@@ -42,10 +42,12 @@ public interface InterfazLocalizacionGestionDestino {
 	// public ArrayList<Tiempo> getTiemposDesplazamiento();
 	//
 	// public ArrayList<Tiempo> getTiemposDesplazamientosAcum();
-	//
-	// public Float getPorcentajeTiempoParadas();
-	//
-	// public Float getPorcentajeTiempoMovimiento();
-	//
+
+	public Float getPorcentajeTiempoParadas();
+
+	public Float getPorcentajeTiempoMovimiento();
+
 	// public Float getPorcentajeTiempoEntregas();
+
+	public HiloMover getHm();
 }
