@@ -1,6 +1,6 @@
 package localizacion_gestion_destino;
 
-import main.*;
+import principal.*;
 
 public class Principal {
 	public static void main(String[] args) {

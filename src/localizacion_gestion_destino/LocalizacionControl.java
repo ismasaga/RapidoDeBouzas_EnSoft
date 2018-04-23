@@ -2,7 +2,7 @@ package localizacion_gestion_destino;
 
 import java.util.*;
 
-import main.*;
+import principal.*;
 import controlador.*;
 
 //http://snipplr.com/view/2789/sorting-map-keys-by-comparing-its-values/

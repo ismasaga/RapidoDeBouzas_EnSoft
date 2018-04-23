@@ -1,7 +1,7 @@
 package localizacion_gestion_destino;
 
 import java.util.ArrayList;
-import main.*;
+import principal.*;
 
 public interface InterfazLocalizacionGestionDestino {
 

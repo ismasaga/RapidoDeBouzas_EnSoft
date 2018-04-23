@@ -2,7 +2,7 @@ package localizacion_gestion_destino;
 
 import java.util.LinkedHashMap;
 
-import main.*;
+import principal.*;
 
 public class HiloMover extends Thread {
 

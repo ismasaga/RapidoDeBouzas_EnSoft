@@ -1,7 +1,8 @@
 package controlador;
 
 import java.util.ArrayList;
-import main.*;
+import principal.*;
+
 public interface InterfazControlador {
 	// comenteinas para que non dese fallo
 //	public Paquete solicitarPaquete(String id);

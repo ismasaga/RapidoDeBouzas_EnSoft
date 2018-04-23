@@ -1,6 +1,6 @@
 package controlador;
 
-import main.*;
+import principal.*;
 
 public class Controlador implements InterfazControlador {
 	public Controlador() {

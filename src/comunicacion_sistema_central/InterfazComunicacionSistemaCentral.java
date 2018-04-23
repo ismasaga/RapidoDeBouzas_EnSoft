@@ -1,7 +1,7 @@
 package comunicacion_sistema_central;
 
 import java.util.ArrayList;
-import main.*;
+import principal.*;
 
 public interface InterfazComunicacionSistemaCentral {
 	public boolean escribirTiempoAleatorio(Camion c);

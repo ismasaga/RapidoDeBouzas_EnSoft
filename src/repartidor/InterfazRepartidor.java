@@ -1,6 +1,6 @@
 package repartidor;
 
-import main.*;
+import principal.*;
 
 public interface InterfazRepartidor {
 	public void anadirPaquete(String id, Destino d, Cliente c, String estado);

@@ -1,4 +1,4 @@
-package main;
+package principal;
 
 public enum EstadoCamion {
     TRANSITO, RECOGIDA, ENTREGA;
