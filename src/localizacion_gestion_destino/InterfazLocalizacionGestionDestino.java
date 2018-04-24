@@ -31,12 +31,12 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Float calcularMediaVelocidad();
 
-	 public Float calcularMediaParadas();
-	
-	 public Tiempo calcularMediaTiempoParada();
-	
-	// public Tiempo calcularMediaTiempoEntrega();
-	//
+	public Float calcularMediaParadas();
+
+	public Tiempo calcularMediaTiempoParada();
+
+	public Tiempo calcularMediaTiempoEntrega();
+
 	// public Tiempo calcularMediaTiempoRecogida();
 	//
 	// public ArrayList<Tiempo> getTiemposDesplazamiento();
@@ -47,7 +47,7 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Float getPorcentajeTiempoMovimiento();
 
-	// public Float getPorcentajeTiempoEntregas();
+	public Float getPorcentajeTiempoEntregas();
 
 	public HiloMover getHm();
 }

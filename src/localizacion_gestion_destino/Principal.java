@@ -32,18 +32,23 @@ public class Principal {
 			System.out.println("Error al esperar por el hilo!: " + e);
 		}
 		
-		System.out.print("Tiempo movimiento: ");
-		il.imprimirTiempo(il.calcularTiempoMovimiento());
+//		System.out.print("Tiempo movimiento: ");
+//		il.imprimirTiempo(il.calcularTiempoMovimiento());
+//		
+//		System.out.println("Km realizados: " + il.calcularNumeroKilometros() + " km");
+//		
+//		System.out.println("Media paradas: " + il.calcularMediaParadas());
+//		
+//		System.out.print("Media tiempo parada: ");
+//		il.imprimirTiempo(il.calcularMediaTiempoParada());
 		
-		System.out.println("Km realizados: " + il.calcularNumeroKilometros() + " km");
-		
-		System.out.println("Media paradas: " + il.calcularMediaParadas());
-		
-		System.out.print("Media tiempo parada: ");
-		il.imprimirTiempo(il.calcularMediaTiempoParada());
+		System.out.print("Media tiempo entrega: ");
+		il.imprimirTiempo(il.calcularMediaTiempoEntrega());
 		
 		System.out.println("Porcentaje tiempo parado: " + il.getPorcentajeTiempoParadas());
 		System.out.println("Porcentaje tiempo movimiento: " + il.getPorcentajeTiempoMovimiento());
+		System.out.println("Porcentaje tiempo entregas: " + il.getPorcentajeTiempoEntregas());
+
 		
 		System.out.println("Finished!");
 		System.exit(0);

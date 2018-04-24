@@ -35,7 +35,7 @@ public class HiloMover extends Thread {
 		Destino posActual = this.camion.getLocalizacion();
 		Destino proxDestino = lc.siguienteDestino();
 		if (proxDestino != null) {
-			System.out.println("En camino al próximo destino:\n");
+			System.out.println("\nDe camino al próximo destino: (" + proxDestino.getX() + ", " + proxDestino.getY() + ")\n");
 			while (posActual.getX() <= proxDestino.getX() && posActual.getY() <= proxDestino.getY()) {
 				// recalcular al tener el camion una nueva posicion
 				actualizarTiempos(i); // si es 0, se calcula todo lo que andara el camion, para asi guardarlo en tiempoMovimiento
@@ -62,6 +62,7 @@ public class HiloMover extends Thread {
 			// (0, 0) (0.36, 0.72) (0.72, 1.45) (1.09, 2.18)(1.45,2.90)(1.81, 3.63)(2, 4)
 			// (2.18, 4.36)
 
+			lc.simularEntrega(this.camion.getLocalizacion());
 			System.out.println("Notificando llegada a destino...\n");
 			lc.notificarDetencion();
 

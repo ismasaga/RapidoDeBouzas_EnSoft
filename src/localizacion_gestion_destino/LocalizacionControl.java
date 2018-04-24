@@ -17,6 +17,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	private HiloMover hm;
 	private HashMap<Destino, Float> hipotenusas;
 	private ArrayList<Tiempo> tiempoParadas;
+	private ArrayList<Tiempo> tiempoEntregas;
 	private LinkedHashMap<Destino, Float> numeroParadas;
 
 	public LocalizacionControl() {
@@ -24,6 +25,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		this.camion = new Camion();
 		this.hipotenusas = new HashMap<>();
 		this.tiempoParadas = new ArrayList<>();
+		this.tiempoEntregas = new ArrayList<>();
 		this.numeroParadas = new LinkedHashMap<>();
 
 		this.hm = new HiloMover(this, this.camion);
@@ -193,6 +195,19 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		}
 	}
 
+	public void simularEntrega(Destino d) {
+		int aleatorio = (int) (Math.random() * 3 + 1); // cambiar a 58
+		System.out.println("Hay parada en destino (" + d.getX() + ", " + d.getY() + ") de " + aleatorio + "s");
+
+		this.tiempoEntregas.add(new Tiempo(0, 0, aleatorio));
+
+		try {
+			Thread.sleep(aleatorio * 1000);
+		} catch (InterruptedException e) {
+			System.out.println("Excepcion on calcularAleatorio()");
+		}
+	}
+
 	@Override
 	public Destino siguienteDestino() {
 		Destino siguienteDestino = null;
@@ -275,11 +290,19 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		return t;
 	}
 
-	// @Override
-	// public Tiempo calcularMediaTiempoEntrega() {
-	//
-	// }
-	//
+	@Override
+	public Tiempo calcularMediaTiempoEntrega() {
+		Tiempo t = new Tiempo();
+		for (int i = 0; i < this.tiempoEntregas.size(); i++) {
+			t = t.sumarTiempo(t, this.tiempoEntregas.get(i));
+//			imprimirTiempo(t);
+		}
+		t = t.calcularMedia(t, this.tiempoEntregas.size());
+		System.out.print("Tiempo final media Entrega = ");
+		imprimirTiempo(t);
+		return t;
+	}
+
 	// @Override
 	// public Tiempo calcularMediaTiempoRecogida() {
 	//
@@ -297,28 +320,52 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 
 	@Override
 	public Float getPorcentajeTiempoParadas() {
-		Tiempo t = new Tiempo();
-		int segundosParado = t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
-		int segundosMovimiento = t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
-		int total = segundosParado + segundosMovimiento;
-		// System.out.println("Total = " + total + "s");
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+//		System.out.println("Total = " + total + "s");
 		return ((float) segundosParado / (float) total) * 100f;
 	}
 
 	@Override
 	public Float getPorcentajeTiempoMovimiento() {
-		Tiempo t = new Tiempo();
-		int segundosParado = t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
-		int segundosMovimiento = t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
-		int total = segundosParado + segundosMovimiento;
-		// System.out.println("Total = " + total + "s");
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+//		System.out.println("Total = " + total + "s");
 		return ((float) segundosMovimiento / (float) total) * 100f;
 	}
 
-	// @Override
-	// public Float getPorcentajeTiempoEntregas() {
-	//
-	// }
+	@Override
+	public Float getPorcentajeTiempoEntregas() {
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+//		System.out.println("Total = " + total + "s");
+		return ((float) segundosEntrega / (float) total) * 100f;
+	}
+
+	private int calcularTiempoSegundosParado() {
+		Tiempo t = new Tiempo();
+		return t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
+	}
+
+	private int calcularTiempoSegundosMovimiento() {
+		Tiempo t = new Tiempo();
+		return t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
+	}
+
+	private int calcularTiempoSegundosEntrega() {
+		Tiempo t = new Tiempo();
+		for (int i = 0; i < this.tiempoEntregas.size(); i++) {
+			t = t.sumarTiempo(t, this.tiempoEntregas.get(i));
+//			imprimirTiempo(t);
+		}
+		return t.calcularTiempoSegundos(t);
+	}
 
 	// creo que se pode borrar
 	// public void actualizarDestinos(Destino d) {
