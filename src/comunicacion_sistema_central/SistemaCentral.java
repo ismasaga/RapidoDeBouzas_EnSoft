@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import principal.*;
 
 public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
-	private dev;
+	private int dev=0;	//akl iniciar la clase es 0, pero se va a ir modificando
 	
 	@Override
-	public boolean escribirTiempoAleatorio(Camion c) {	//fichero de escritura aleatorio
+	public boolean escribirTiempoAleatorio(Camion c) {		//fichero de escritura aleatorio de camion
 		return escribir_camion(c);
 	}
 	
@@ -18,12 +18,15 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	}
 	
 	@Override
-	public ArrayList<Paquete> solicitarPaquetesAEntregar() {
+	public ArrayList<Paquete> solicitarPaquetesAEntregar() {		//leo todas las entregas y devuelvo un array con las entregas todas
 		return leer_archivo_entregas();
 	}
 	
 	@Override
 	public Paquete solicitarDevolucion() {		//extrae una devolucion de la lista de devoluciones del fichero
+		ArrayList<Paquete> array = leer_archivo_devoluciones();
+		dev++;
+		return array.get(dev);	//cada vez devuelve el array siguiente al que cogio  antes
 		
 	}
 	
@@ -34,6 +37,7 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	
 	@Override
 	public ArrayList<String> listarParadas(){
+		
 		
 	}
 	
@@ -74,9 +78,9 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
         return array;
 	}
 	
-	private Paquete leer_archivo_devoluciones () throws FileNotFoundException, IOException{
+	private ArrayList<Paquete> leer_archivo_devoluciones () throws FileNotFoundException, IOException{
 		String archivo = "fichero_devoluciones.csv";
-		
+		ArrayList<Paquete> array = new ArrayList<Paquete>();
 		Paquete p = null;
 		
 		String cadena;
@@ -98,11 +102,12 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
         	
         	p = new Paquete(id_paq, des, cli, null, null, null, false, null);
         	
+        	array.add(p);
         }
         
         b.close();
         
-        return p;
+        return array;
 	}
 
 	private boolean escribir_camion (Camion c) throws IOException {
