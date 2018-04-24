@@ -101,9 +101,9 @@ public class Tiempo implements Comparator<Tiempo>, Comparable<Tiempo> {
 	public Tiempo calcularMedia(Tiempo t, int denominador) {
 		int segundos = calcularTiempoSegundos(t);
 		int segundosFinal = segundos / denominador;
-		
+
 		int minutosFinal = 0, horasFinal = 0;
-		
+
 		if (segundosFinal > 59) {
 			minutosFinal = segundosFinal / 60;
 			segundosFinal = 0;
@@ -114,7 +114,7 @@ public class Tiempo implements Comparator<Tiempo>, Comparable<Tiempo> {
 		}
 		return new Tiempo(horasFinal, minutosFinal, segundosFinal);
 	}
-	
+
 	public int calcularTiempoSegundos(Tiempo t) {
 		return t.getHora() * 3600 + t.getMinuto() * 60 + t.getSegundo();
 	}

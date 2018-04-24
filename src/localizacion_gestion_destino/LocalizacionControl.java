@@ -1,7 +1,6 @@
 package localizacion_gestion_destino;
 
 import java.util.*;
-
 import principal.*;
 import controlador.*;
 
@@ -15,16 +14,47 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	private Camion camion;
 	private InterfazControlador ic;
 	private HiloMover hm;
+	private ArrayList<Destino> destinos;
 	private HashMap<Destino, Float> hipotenusas;
 	private ArrayList<Tiempo> tiempoParadas;
-	private LinkedHashMap<Destino, Float> numeroParadas;
+	private ArrayList<Tiempo> tiempoEntregas;
+	private LinkedHashMap<Destino, Float> numeroParadas; // de un destino en particular
+	
+	
+	private ArrayList<Destino> auxaux;
+	
+	
 
-	public LocalizacionControl() {
+	// public LocalizacionControl() {
+	// this.ic = new Controlador();
+	// this.camion = new Camion();
+	// this.hipotenusas = new HashMap<>();
+	// this.tiempoParadas = new ArrayList<>();
+	// this.tiempoEntregas = new ArrayList<>();
+	// this.numeroParadas = new LinkedHashMap<>();
+	//
+	// this.hm = new HiloMover(this, this.camion);
+	// this.hm.start();
+	// }
+
+	public LocalizacionControl(ArrayList<Destino> destinos) {
 		this.ic = new Controlador();
 		this.camion = new Camion();
+		this.destinos = destinos;
 		this.hipotenusas = new HashMap<>();
 		this.tiempoParadas = new ArrayList<>();
+		this.tiempoEntregas = new ArrayList<>();
 		this.numeroParadas = new LinkedHashMap<>();
+		
+		// nas
+		ArrayList<Destino> aux = new ArrayList<>();
+	
+		aux = destinos;
+		this.auxaux = aux;
+		
+		for (Destino d : destinos) {
+			anadirDestino(d);
+		}
 
 		this.hm = new HiloMover(this, this.camion);
 		this.hm.start();
@@ -90,7 +120,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		// i++;
 		// }
 
-		// asi estan os tempos actualizados, falta ordenalos
+		// asi estan los tiempos actualizados, falta ordenarlos
 		ordenarTiempos(camion.getDestinos());
 	}
 
@@ -115,7 +145,6 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	}
 
 	private void getKeyByValue(LinkedHashMap<Destino, Tiempo> destinos, List<Tiempo> tiempos) {
-		// Tiempo t = new Tiempo();
 		LinkedHashMap<Destino, Tiempo> aux = new LinkedHashMap<>();
 		for (int j = 0; j < tiempos.size(); j++) {
 			for (Map.Entry<Destino, Tiempo> entry : destinos.entrySet()) {
@@ -123,19 +152,27 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 						&& tiempos.get(j).getMinuto() == entry.getValue().getMinuto()
 						&& tiempos.get(j).getSegundo() == entry.getValue().getSegundo()) {
 					aux.put(entry.getKey(), tiempos.get(j));
-					// this.camion.setTiempoMovimiento(t.sumarTiempo(this.camion.getTiempoMovimiento(),
-					// tiempos.get(j)));
 				}
 			}
 		}
 		this.camion.setDestinos(aux);
-
-		// System.out.print("Tiempo movimiento: ");
-		// imprimirTiempo(this.camion.getTiempoMovimiento());
 	}
 
+	// MAL O DE IMPRIMIR DESTINOS
 	@Override
 	public void imprimirDestinos() {
+		System.out.println("Imprimiendo destinos: ");
+//		for (Destino d : this.hm.getDestinosEntregados()) {
+//			imprimirDestino(d);
+//		}
+		
+		for (Destino d : this.auxaux) {
+			imprimirDestino(d);
+		}
+		
+	}
+
+	public void imprimirDestinosActualizados() {
 		for (Map.Entry<Destino, Tiempo> h : this.camion.getDestinos().entrySet()) {
 			System.out.println("(x = " + h.getKey().getX() + ", y = " + h.getKey().getY() + ")");
 			System.out.println("Tiempo = (" + h.getValue().getHora() + "h, " + h.getValue().getMinuto() + "min, "
@@ -162,7 +199,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	public void simularParada(Destino d) {
 		int hayParada = (int) (Math.random() * 100);
 		if (hayParada % 2 == 0) { // nueva parada
-			int aleatorio = (int) (Math.random() * 3 + 1); // cambiar a 58
+			int aleatorio = (int) (Math.random() * 3 + 1); // cambiar a (Math.random() * 58 + 1), parada menor de 1min
 			System.out.println("Hay parada de " + aleatorio + "s");
 
 			Tiempo t = new Tiempo();
@@ -193,6 +230,27 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		}
 	}
 
+	public void simularEntrega(Destino d) {
+		int aleatorio = (int) (Math.random() * 3 + 1); // cambiar a (Math.random() * 300 + 300) (600s, 10 min x 60s como
+														// maximo e 300s como min)
+		System.out.println("Hay parada en destino (" + d.getX() + ", " + d.getY() + ") de " + aleatorio + "s");
+
+		int minutos = 0;
+		int segundos = aleatorio;
+
+		if (aleatorio > 60) {
+			minutos = aleatorio / 60;
+			segundos = aleatorio % 60;
+		}
+		this.tiempoEntregas.add(new Tiempo(0, minutos, segundos));
+
+		try {
+			Thread.sleep(aleatorio * 1000);
+		} catch (InterruptedException e) {
+			System.out.println("Excepcion on calcularAleatorio()");
+		}
+	}
+
 	@Override
 	public Destino siguienteDestino() {
 		Destino siguienteDestino = null;
@@ -215,15 +273,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	}
 
 	public void notificarDetencion() {
-		this.ic.notificarDetencion(this.camion);
-	}
-
-	// public Camion getCamion() {
-	// return camion;
-	// }
-
-	public void setCamion(Camion camion) {
-		this.camion = camion;
+		this.ic.notificarDetencion(this.camion); // se llama a la interfaz del controlador
 	}
 
 	@Override
@@ -275,59 +325,105 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		return t;
 	}
 
-	// @Override
-	// public Tiempo calcularMediaTiempoEntrega() {
-	//
-	// }
-	//
+	@Override
+	public Tiempo calcularMediaTiempoEntrega() {
+		Tiempo t = new Tiempo();
+		for (int i = 0; i < this.tiempoEntregas.size(); i++) {
+			t = t.sumarTiempo(t, this.tiempoEntregas.get(i));
+			// imprimirTiempo(t);
+		}
+
+		// System.out.print("Tiempo total Entrega = ");
+		// imprimirTiempo(t);
+
+		t = t.calcularMedia(t, this.tiempoEntregas.size());
+
+		// System.out.print("Tiempo final media Entrega = ");
+		// imprimirTiempo(t);
+		return t;
+	}
+
 	// @Override
 	// public Tiempo calcularMediaTiempoRecogida() {
 	//
 	// }
-	//
-	// @Override
-	// public ArrayList<Tiempo> getTiemposDesplazamiento() {
-	//
-	// }
-	//
-	// @Override
-	// public ArrayList<Tiempo> getTiemposDesplazamientosAcum() {
-	//
-	// }
+
+	@Override
+	public LinkedHashMap<Destino, Tiempo> getTiemposDesplazamiento() { // devuelve los acumulados tambien
+		return getTiemposDesplazamientosAcum();
+	}
+
+	// MAL
+	@Override
+	public LinkedHashMap<Destino, Tiempo> getTiemposDesplazamientosAcum() {
+		System.out.println("Devolviendo los tiemposAcum");
+		LinkedHashMap<Destino, Tiempo> tiemposAcum = new LinkedHashMap<>();
+		ArrayList<Tiempo> tiempos = this.hm.getTiempoAcumulado();
+		for (int i = 0; i < this.destinos.size(); i++) {
+			tiemposAcum.put(this.destinos.get(i), tiempos.get(i));
+		}
+		return tiemposAcum;
+	}
 
 	@Override
 	public Float getPorcentajeTiempoParadas() {
-		Tiempo t = new Tiempo();
-		int segundosParado = t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
-		int segundosMovimiento = t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
-		int total = segundosParado + segundosMovimiento;
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+		// System.out.println("segundosParado = " + segundosParado);
 		// System.out.println("Total = " + total + "s");
 		return ((float) segundosParado / (float) total) * 100f;
 	}
 
 	@Override
 	public Float getPorcentajeTiempoMovimiento() {
-		Tiempo t = new Tiempo();
-		int segundosParado = t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
-		int segundosMovimiento = t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
-		int total = segundosParado + segundosMovimiento;
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+		// System.out.println("segundosMovimiento = " + segundosMovimiento);
 		// System.out.println("Total = " + total + "s");
 		return ((float) segundosMovimiento / (float) total) * 100f;
 	}
 
-	// @Override
-	// public Float getPorcentajeTiempoEntregas() {
-	//
+	@Override
+	public Float getPorcentajeTiempoEntregas() {
+		int segundosParado = calcularTiempoSegundosParado();
+		int segundosMovimiento = calcularTiempoSegundosMovimiento();
+		int segundosEntrega = calcularTiempoSegundosEntrega();
+		int total = segundosParado + segundosMovimiento + segundosEntrega;
+		// System.out.println("segundosEntrega = " + segundosEntrega);
+		// System.out.println("Total = " + total + "s");
+		return ((float) segundosEntrega / (float) total) * 100f;
+	}
+
+	private int calcularTiempoSegundosParado() {
+		Tiempo t = new Tiempo();
+		return t.calcularTiempoSegundos(this.camion.getTiempoDetenido());
+	}
+
+	private int calcularTiempoSegundosMovimiento() {
+		Tiempo t = new Tiempo();
+		return t.calcularTiempoSegundos(this.camion.getTiempoMovimiento());
+	}
+
+	private int calcularTiempoSegundosEntrega() {
+		Tiempo t = new Tiempo();
+		for (int i = 0; i < this.tiempoEntregas.size(); i++) {
+			t = t.sumarTiempo(t, this.tiempoEntregas.get(i));
+			// imprimirTiempo(t);
+		}
+		return t.calcularTiempoSegundos(t);
+	}
+
+	// public Camion getCamion() {
+	// return camion;
 	// }
 
-	// creo que se pode borrar
-	// public void actualizarDestinos(Destino d) {
-	//
-	// }
-
-	// public Destino informarDetencion() {
-	//
-	// }
+	public void setCamion(Camion camion) {
+		this.camion = camion;
+	}
 
 	public HiloMover getHm() {
 		return hm;
