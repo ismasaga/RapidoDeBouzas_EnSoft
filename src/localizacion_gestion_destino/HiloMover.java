@@ -51,7 +51,7 @@ public class HiloMover extends Thread {
 				posActual.setY(posActual.getY() + proxDestino.getY() / 5.5f);
 				this.camion.setLocalizacion(new Destino(posActual.getX(), posActual.getY()));
 
-				lc.simularParada(proxDestino);
+//				lc.simularParada(proxDestino);
 				i++;
 			}
 
@@ -70,7 +70,7 @@ public class HiloMover extends Thread {
 			// (0, 0) (0.36, 0.72) (0.72, 1.45) (1.09, 2.18)(1.45,2.90)(1.81, 3.63)(2, 4)
 			// (2.18, 4.36)
 
-			lc.simularEntrega(this.camion.getLocalizacion());
+//			lc.simularEntrega(this.camion.getLocalizacion());
 			System.out.println("Notificando llegada a destino...\n");
 			lc.notificarDetencion();
 
@@ -108,7 +108,7 @@ public class HiloMover extends Thread {
 			segundosInt = (int) segundos;
 
 			Tiempo t = new Tiempo(horasInt, minutosInt, segundosInt);
-			this.camion.getDestinos().put(d, t);
+			this.camion.getDestinos().put(d, t); // cambiei esto de Gonzalo
 
 			Tiempo tDetenido = new Tiempo(0, 0, 0);
 			tDetenido = tDetenido.sumarTiempo(tDetenido, this.camion.getDestinos().get(d));

@@ -1,5 +1,6 @@
 package repartidor;
 
+import java.util.ArrayList;
 import principal.*;
 
 public interface InterfazRepartidor {

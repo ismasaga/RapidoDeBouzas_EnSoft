@@ -1,27 +1,32 @@
 package principal;
 
 public class Destino {
-	private Float x;
-    private Float y;
+	private float x;
+    private float y;
 
-    public Destino(Float x, Float y) {
+    public Destino(Destino d) {
+    	this.x = d.getX();
+    	this.y = d.getY();
+    }
+    
+    public Destino(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public Float getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(Float x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public Float getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(Float y) {
+    public void setY(float y) {
         this.y = y;
     }
 }

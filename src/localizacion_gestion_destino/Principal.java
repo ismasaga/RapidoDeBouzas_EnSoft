@@ -46,12 +46,16 @@ public class Principal {
 		// System.out.print("Media tiempo entrega: ");
 		// il.imprimirTiempo(il.calcularMediaTiempoEntrega());
 
-		System.out.println("Porcentaje tiempo parado: " + il.getPorcentajeTiempoParadas());
-		System.out.println("Porcentaje tiempo movimiento: " + il.getPorcentajeTiempoMovimiento());
-		System.out.println("Porcentaje tiempo entregas: " + il.getPorcentajeTiempoEntregas());
+		// System.out.println("Porcentaje tiempo parado: " +
+		// il.getPorcentajeTiempoParadas());
+		// System.out.println("Porcentaje tiempo movimiento: " +
+		// il.getPorcentajeTiempoMovimiento());
+		// System.out.println("Porcentaje tiempo entregas: " +
+		// il.getPorcentajeTiempoEntregas());
 
 		// para recoller os tempos acumulados
 		LinkedHashMap<Destino, Tiempo> tiemposAcum = il.getTiemposDesplazamientosAcum();
+		System.out.println("Tiempos acumulados: ");
 		for (Destino d : tiemposAcum.keySet()) {
 			il.imprimirDestino(d);
 			il.imprimirTiempo(tiemposAcum.get(d));

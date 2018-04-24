@@ -1,5 +1,10 @@
 package repartidor;
 
+import java.util.ArrayList;
+
+import controlador.*;
+import principal.*;
+
 public class Repartidor implements InterfazRepartidor {
 	private InterfazControlador iC;
 	
@@ -21,13 +26,13 @@ public class Repartidor implements InterfazRepartidor {
 	}
 	
 	public void modificarPaquete(String id, Destino d, Cliente c, EstadoPaquete estado, String observacions) {
-		Paquete p=new Paquete(id, d, c, observaciones, null, null, false, EstadoPaquete.valueOf(estado));
+		Paquete p=new Paquete(id, d, c, observacions, null, null, false, estado);
 		this.iC.anadirPaquete(p);
 	}
 	
 	public void aceptarPaquete(String id, boolean firma) {
 		Paquete p=this.iC.solicitarPaquete(id);
-		p.setFirma(firma);
+		p.getCliente().setFirma(firma);
 		//this.iC.modificarPaquete(p);
 	}
 	
@@ -42,9 +47,9 @@ public class Repartidor implements InterfazRepartidor {
 	
 	public void anadirReceptorAlternativo(String id, String nombre, String dni, boolean firma) {
 		Paquete p=this.iC.solicitarPaquete(id);
-		p.setNombre(nombre);
-		p.setDni(dni);
-		p.setFirma(firma);
+		p.getCliente().setNombre(nombre);
+		p.getCliente().setDni(dni);
+		p.getCliente().setFirma(firma);
 		//this.iC.modificarPaquete(p); 
 	}
 	

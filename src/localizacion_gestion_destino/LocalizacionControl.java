@@ -19,11 +19,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	private ArrayList<Tiempo> tiempoParadas;
 	private ArrayList<Tiempo> tiempoEntregas;
 	private LinkedHashMap<Destino, Float> numeroParadas; // de un destino en particular
-	
-	
-	private ArrayList<Destino> auxaux;
-	
-	
+	private ArrayList<Destino> destinosIniciales;
 
 	// public LocalizacionControl() {
 	// this.ic = new Controlador();
@@ -45,15 +41,24 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		this.tiempoParadas = new ArrayList<>();
 		this.tiempoEntregas = new ArrayList<>();
 		this.numeroParadas = new LinkedHashMap<>();
-		
-		// nas
-		ArrayList<Destino> aux = new ArrayList<>();
-	
-		aux = destinos;
-		this.auxaux = aux;
-		
+
 		for (Destino d : destinos) {
 			anadirDestino(d);
+		}
+		
+		this.destinosIniciales = new ArrayList<>();
+
+		for (Destino d : this.camion.getDestinos().keySet()) {
+			d = new Destino(d);
+			this.destinosIniciales.add(d);
+		}
+
+		// this.destinosIniciales = Arrays.copyOf(this.destinosIniciales, new
+		// ArrayList<Destino>(this.camion.getDestinos().keySet()));
+
+		System.out.println("Destinos iniciales LocalizacionControl");
+		for (Destino d : this.destinosIniciales) {
+			imprimirDestino(d);
 		}
 
 		this.hm = new HiloMover(this, this.camion);
@@ -158,18 +163,14 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		this.camion.setDestinos(aux);
 	}
 
-	// MAL O DE IMPRIMIR DESTINOS
 	@Override
 	public void imprimirDestinos() {
 		System.out.println("Imprimiendo destinos: ");
-//		for (Destino d : this.hm.getDestinosEntregados()) {
-//			imprimirDestino(d);
-//		}
 		
-		for (Destino d : this.auxaux) {
+		for (Destino d : this.destinosIniciales) {
 			imprimirDestino(d);
 		}
-		
+
 	}
 
 	public void imprimirDestinosActualizados() {
@@ -353,15 +354,15 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 		return getTiemposDesplazamientosAcum();
 	}
 
-	// MAL
 	@Override
 	public LinkedHashMap<Destino, Tiempo> getTiemposDesplazamientosAcum() {
-		System.out.println("Devolviendo los tiemposAcum");
 		LinkedHashMap<Destino, Tiempo> tiemposAcum = new LinkedHashMap<>();
 		ArrayList<Tiempo> tiempos = this.hm.getTiempoAcumulado();
-		for (int i = 0; i < this.destinos.size(); i++) {
-			tiemposAcum.put(this.destinos.get(i), tiempos.get(i));
+
+		for (int i = 0; i < this.destinosIniciales.size(); i++) {
+			tiemposAcum.put(this.destinosIniciales.get(i), tiempos.get(i));
 		}
+
 		return tiemposAcum;
 	}
 
