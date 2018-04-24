@@ -34,6 +34,9 @@ public class Repartidor implements InterfazRepartidor {
 	public void rechazarPaquete(String id, String motivoRechazo) {
 		Paquete p=this.iC.solicitarPaquete(id);
 		p.setObservaciones(motivoRechazo);
+		
+		
+		
 		//this.iC.modificarPaquete(p); 
 	}
 	
