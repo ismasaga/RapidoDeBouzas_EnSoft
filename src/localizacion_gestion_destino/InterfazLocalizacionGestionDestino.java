@@ -1,6 +1,7 @@
 package localizacion_gestion_destino;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import principal.*;
 
 public interface InterfazLocalizacionGestionDestino {
@@ -29,7 +30,7 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Float calcularNumeroKilometros();
 
-	public Float calcularMediaVelocidad();
+	public Float calcularMediaVelocidad(); // no se modifica nunca
 
 	public Float calcularMediaParadas();
 
@@ -37,11 +38,11 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Tiempo calcularMediaTiempoEntrega();
 
-	// public Tiempo calcularMediaTiempoRecogida();
-	//
-	// public ArrayList<Tiempo> getTiemposDesplazamiento();
-	//
-	// public ArrayList<Tiempo> getTiemposDesplazamientosAcum();
+	// public Tiempo calcularMediaTiempoRecogida(); // pienso que es mejor usar el metodo calcularMediaTiempoEntrega para ambos
+
+	public LinkedHashMap<Destino, Tiempo> getTiemposDesplazamiento(); // se modifico la interfaz, ademas, devuelve los acumulados tambien (no implementada)
+
+	public LinkedHashMap<Destino, Tiempo> getTiemposDesplazamientosAcum(); // se modifico la interfaz
 
 	public Float getPorcentajeTiempoParadas();
 
@@ -49,5 +50,5 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Float getPorcentajeTiempoEntregas();
 
-	public HiloMover getHm();
+	public HiloMover getHm(); // para conseguir el hilo de mover
 }
