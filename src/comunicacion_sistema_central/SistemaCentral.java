@@ -32,7 +32,8 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	
 	@Override
 	public boolean notificarDetencion(Camion c) {
-		
+		System.out.println("Detención de camión en destino");
+		System.out.println("Posicion camion: (" + c.getLocalizacion().getX() + ", " + c.getLocalizacion().getY() + ")");
 	}
 	
 	@Override
