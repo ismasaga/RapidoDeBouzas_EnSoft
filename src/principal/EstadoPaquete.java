@@ -1,5 +1,5 @@
 package principal;
 
 public enum EstadoPaquete {
-	confirmado
+	ENTREGADO, DEVOLUCION, EN_REPARTO
 }

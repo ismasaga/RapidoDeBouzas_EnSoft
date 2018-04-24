@@ -5,10 +5,20 @@ import java.util.ArrayList;
 import principal.*;
 
 public class Controlador implements InterfazControlador {
+
 	private ArrayList<Paquete> listaEntrega;
 	private ArrayList<Paquete> listaDevolucion;
-	
-	public Controlador() {
+
+	public ArrayList<Paquete> getListaDevolucion() {
+		return listaDevolucion;
+	}
+
+	public void setListaDevolucion(ArrayList<Paquete> listaDevolucion) {
+		this.listaDevolucion = listaDevolucion;
+	}
+
+	public void setListaEntrega(ArrayList<Paquete> listaEntrega) {
+		this.listaEntrega = listaEntrega;
 	}
 
 	@Override
@@ -65,8 +75,35 @@ public class Controlador implements InterfazControlador {
 	}
 
 	@Override
-	public void notificarDestino(Destino d) {
+	public Camion recibirCamion() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Paquete confirmarPaquete() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Paquete solicitarDevolucionAleatoria() {
+		return null;
+	}
+
+	public ArrayList<Paquete> getListaEntrega() {
+		return null;
+	}
+
+	public ArrayList<Paquete> getListaDevoluciones() {
+		return null;
+	}
+
+	public void modificarEstadoCamion(EstadoCamion estado) {
 
 	}
+
+	public EstadoCamion getEstadoActualCamion() {
+		return null;
+	}
+
 }
