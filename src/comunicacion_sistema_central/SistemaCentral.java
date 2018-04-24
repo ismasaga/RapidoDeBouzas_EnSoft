@@ -1,6 +1,7 @@
 package comunicacion_sistema_central;
 
 import java.util.ArrayList;
+
 import principal.*;
 
 public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
@@ -37,7 +38,7 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	
 	@Override
 	public void confirmarPaquete(Paquete p) {
-		
+		p.setEstado (confirmado);				//suponiendo que uno de las opciones de estado de paquete sea CONFIRMADO
 	}
 	
 	private ArrayList<Paquete> leer_archivo_entregas () throws FileNotFoundException, IOException{
@@ -72,9 +73,10 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
         return array;
 	}
 	
-	private ArrayList<Paquete> leer_archivo_devoluciones () throws FileNotFoundException, IOException{
+	private Paquete leer_archivo_devoluciones () throws FileNotFoundException, IOException{
 		String archivo = "fichero_devoluciones.csv";
-		ArrayList <Paquete> array = new ArrayList <Paquete>();
+		
+		Paquete p = null;
 		
 		String cadena;
         FileReader f = new FileReader(archivo);
@@ -93,15 +95,13 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
         	Destino des = new Destino (pos_x, pos_y);
         	Cliente cli = new Cliente (dni, nombre, des, tel, null);		// estoy metiendo la firma a null
         	
-        	Paquete p = new Paquete(id_paq, des, cli, null, null, null, false, null);
-        	
-        	array.add(p);
+        	p = new Paquete(id_paq, des, cli, null, null, null, false, null);
         	
         }
         
         b.close();
         
-        return array;
+        return p;
 	}
 }
 
