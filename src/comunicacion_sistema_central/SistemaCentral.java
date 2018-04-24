@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import principal.*;
 
 public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
+	private dev;
 	
 	@Override
-	public boolean escribirTiempoAleatorio(Camion c) {
-		
+	public boolean escribirTiempoAleatorio(Camion c) {	//fichero de escritura aleatorio
+		return escribir_camion(c);
 	}
 	
 	@Override
-	public boolean escribirConfirmacionEntrega(Paquete p) {
-		
+	public boolean escribirConfirmacionEntrega(Paquete p) {		//se escribe en fichero confirmacion de entrega de paquete
+		return escribir_paquete(p);
 	}
 	
 	@Override
@@ -22,7 +23,7 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	}
 	
 	@Override
-	public Paquete solicitarDevolucion() {
+	public Paquete solicitarDevolucion() {		//extrae una devolucion de la lista de devoluciones del fichero
 		
 	}
 	
@@ -102,6 +103,36 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
         b.close();
         
         return p;
+	}
+
+	private boolean escribir_camion (Camion c) throws IOException {
+		try{
+		    String filename= "fichero_escritura.csv";
+		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+		    fw.write(c.getLocalizacion().getX() + "; " + c.getLocalizacion().getY() + "; " + c.getEstadoCamion() + "; " + "1 hora 12 minutos \n");
+		    fw.close();
+		}
+		catch(IOException ioe) {
+		    System.err.println("IOException: " + ioe.getMessage());
+		    return false;
+		}
+		
+		return true;
+	}
+
+	private boolean escribir_paquete (Paquete p) throws IOException {
+		try{
+		    String filename= "fichero_escritura.csv";
+		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+		    fw.write(p.getId() + "; " + p.getCliente().getDni() "\n");
+		    fw.close();
+		}
+		catch(IOException ioe) {
+		    System.err.println("IOException: " + ioe.getMessage());
+		    return false;
+		}
+		
+		return true;
 	}
 }
 
