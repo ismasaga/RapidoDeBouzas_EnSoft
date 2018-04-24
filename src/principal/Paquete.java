@@ -3,16 +3,18 @@ package principal;
 public class Paquete {
 	private String id;
 	private Destino d;
+	private Cliente c;
 	private String observaciones;
 	private String dniAlternativo;
 	private String nombreAlternativo;
 	private boolean firmaAlternativa;
 	private EstadoPaquete estado;
 	
-	public Paquete(String id, Destino d, String observaciones, String dniAlternativo, String nombreAlternativo,
+	public Paquete(String id, Destino d, Cliente c, String observaciones, String dniAlternativo, String nombreAlternativo,
 			boolean firmaAlternativa, EstadoPaquete estado) {
 		this.id = id;
 		this.d = d;
+		this.c=c;
 		this.observaciones = observaciones;
 		this.dniAlternativo = dniAlternativo;
 		this.nombreAlternativo = nombreAlternativo;
@@ -35,7 +37,15 @@ public class Paquete {
 	public void setD(Destino d) {
 		this.d = d;
 	}
-
+	
+	public Cliente getCliente() {
+		return c;
+	}
+	
+	public void setCliente(Cliente c) {
+		this.c = c;
+	}
+	
 	public String getObservaciones() {
 		return observaciones;
 	}

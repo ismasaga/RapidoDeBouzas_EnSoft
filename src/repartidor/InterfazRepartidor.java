@@ -10,6 +10,6 @@ public interface InterfazRepartidor {
 	public void aceptarPaquete(String id, boolean firma);
 	public void rechazarPaquete(String id, String motivoRechazo);
 	public void anadirReceptorAlternativo(String id, String nombre, String dni, boolean firma);
-	public void ejecutarLecturaEntregasDia();
-	public void escribirConfirmacionEntrega(Paquete p);
+	public ArrayList<Paquete> ejecutarLecturaEntregasDia();
+	//public void escribirConfirmacionEntrega(Paquete p);
 }
