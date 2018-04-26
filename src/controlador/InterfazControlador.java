@@ -26,4 +26,6 @@ public interface InterfazControlador {
 	public ArrayList<Paquete> solicitarListaPaquetes();
 
 	public Tiempo solicitarTiempoEstimadoEntregaPaquete(Paquete p);
+	
+	public Paquete solicitarDevolucionAleatoria();
 }

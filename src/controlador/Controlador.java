@@ -163,8 +163,7 @@ public class Controlador implements InterfazControlador {
 	 * @return
 	 */
 	public Paquete solicitarDevolucionAleatoria() {
-		Paquete p = listaDevolucion.get(0);
-		return p;
+		return sc.solicitarDevolucion();
 	}
 
 	public ArrayList<Paquete> getListaEntrega() {
