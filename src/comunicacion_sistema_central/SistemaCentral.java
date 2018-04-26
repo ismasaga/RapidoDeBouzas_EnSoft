@@ -34,17 +34,17 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	public boolean notificarDetencion(Camion c) {
 		//System.out.println("Detención de camión en destino");
 		//System.out.println("Posicion camion: (" + c.getLocalizacion().getX() + ", " + c.getLocalizacion().getY() + ")");
-		System.out.println("No iimplementada");
+		System.out.println("No implementada");
 	}
 	
 	@Override
 	public ArrayList<String> listarParadas(){
-		System.out.println("No iimplementada");
+		System.out.println("No implementada");
 	}
 	
 	@Override
 	public void confirmarPaquete(Paquete p) {
-		p.setEstado (confirmado);				//suponiendo que uno de las opciones de estado de paquete sea CONFIRMADO
+		p.setEstado (ENTREGADO);				//suponiendo que uno de las opciones de estado de paquete sea entregado
 	}
 	
 	private ArrayList<Paquete> leer_archivo_entregas () throws FileNotFoundException, IOException{
