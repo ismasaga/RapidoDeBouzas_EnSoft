@@ -2,19 +2,27 @@ package controlador;
 
 import java.util.ArrayList;
 
+import comunicacion_sistema_central.InterfazComunicacionSistemaCentral;
 import comunicacion_sistema_central.SistemaCentral;
+import localizacion_gestion_destino.InterfazLocalizacionGestionDestino;
+import localizacion_gestion_destino.LocalizacionControl;
 import principal.*;
+import repartidor.InterfazRepartidor;
 
 public class Controlador implements InterfazControlador {
 
 	private ArrayList<Paquete> listaEntrega;
 	private ArrayList<Paquete> listaDevolucion;
-	private SistemaCentral sc;
-	
-	public Controlador() {
-		 sc = new SistemaCentral();
+	private InterfazComunicacionSistemaCentral sc;
+	private InterfazLocalizacionGestionDestino il;
+	private InterfazRepartidor rep;
+
+	public Controlador(InterfazRepartidor rep) {
+		this.rep = rep;
+		sc = new SistemaCentral();
+		listaDevolucion = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Se quedan hay que metelos no diagrama de clases
 	 * @return
@@ -31,20 +39,39 @@ public class Controlador implements InterfazControlador {
 		this.listaEntrega = listaEntrega;
 	}
 
-	
-	
-//---------------------------------------------------------------------------
-	
-	
-	
+
+
+	//---------------------------------------------------------------------------
+
+
+
 	/**
 	 * Metodo que redirixe a notificacion de parada que proven do
 	 * subsistema de localizacion e xestion
 	 */
 	@Override
 	public void notificarDetencion(Camion c) {
+		Destino d = c.getLocalizacion();
+		boolean flag = true;
 		
-		sc.escribirTiempoAleatorio(c);
+		for (Paquete p : listaEntrega) {
+			if (p.getD().getX() == d.getX() && p.getD().getY() == d.getY()) {
+				System.out.println("Entregouse un paquete");
+				rep.escribirConfirmacionEntrega(p);
+				sc.escribirTiempoAleatorio(c);
+				return;
+			}
+		}
+		for (Paquete p : listaDevolucion) {
+			if (p.getD().getX() == d.getX() && p.getD().getY() == d.getY()) {
+				System.out.println("Recolleuse unha devolución");
+				rep.escribirConfirmacionEntrega(p);
+				sc.escribirTiempoAleatorio(c);
+				return;
+			}
+		}
+		if (flag)
+			System.out.println("Non se atopou un paquete co mesmo destino que nos pasou InterfazLocalizacion");
 	}
 
 	/**
@@ -54,6 +81,11 @@ public class Controlador implements InterfazControlador {
 	@Override
 	public Paquete solicitarPaquete(String id) {
 		for (Paquete paquete : listaDevolucion) {
+			if (paquete.getId().equals(id)) {
+				return paquete;
+			}
+		}
+		for (Paquete paquete : listaEntrega) {
 			if (paquete.getId().equals(id)) {
 				return paquete;
 			}
@@ -81,7 +113,7 @@ public class Controlador implements InterfazControlador {
 	@Override
 	public void borrarPaquete(String id) {
 		int flag = 0;
-		
+
 		for (Paquete p : listaDevolucion) {
 			if (p.getId().equals(id)) {
 				listaDevolucion.remove(p);
@@ -131,11 +163,18 @@ public class Controlador implements InterfazControlador {
 	}
 
 	/**
-	 * Devolve a lista de paquetes a entregar
+	 * Devolve a lista de paquetes a entregar e instancia o sistema
+	 * de localizacion e control pasandolle a lista de destinos
+	 * -----------------SO SE PODE CHAMAR UNHA VEZ-----------------
 	 */
 	@Override
 	public ArrayList<Paquete> solicitarListaPaquetes() {
+		ArrayList<Destino> listaDestinos = new ArrayList<>();
 		listaEntrega = sc.solicitarPaquetesAEntregar();
+		for (Paquete p : listaEntrega) {
+			listaDestinos.add(new Destino(p.getD()));
+		}
+		il = new LocalizacionControl(listaDestinos, this);
 		return listaEntrega;
 	}
 
@@ -163,7 +202,9 @@ public class Controlador implements InterfazControlador {
 	 * @return
 	 */
 	public Paquete solicitarDevolucionAleatoria() {
-		return sc.solicitarDevolucion();
+		Paquete p = sc.solicitarDevolucion();
+		listaDevolucion.add(p);
+		return p;
 	}
 
 	public ArrayList<Paquete> getListaEntrega() {

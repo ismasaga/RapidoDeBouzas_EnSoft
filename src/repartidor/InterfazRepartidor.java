@@ -12,5 +12,5 @@ public interface InterfazRepartidor {
 	public void rechazarPaquete(String id, String motivoRechazo);
 	public void anadirReceptorAlternativo(String id, String nombre, String dni, boolean firma);
 	public ArrayList<Paquete> ejecutarLecturaEntregasDia();
-	//public void escribirConfirmacionEntrega(Paquete p);
+	public void escribirConfirmacionEntrega(Paquete p);
 }

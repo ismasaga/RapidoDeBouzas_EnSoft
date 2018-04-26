@@ -1,5 +1,8 @@
 package repartidor;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import controlador.*;
@@ -9,7 +12,7 @@ public class Repartidor implements InterfazRepartidor {
 	private InterfazControlador iC;
 	
 	public Repartidor() {
-		this.iC = new Controlador();
+		this.iC = new Controlador(this);
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class Repartidor implements InterfazRepartidor {
 	
 	@Override
 	public void aceptarPaquete(String id, boolean firma) {
-		Paquete p=this.iC.solicitarPaquete(id);
+		Paquete p = this.iC.solicitarPaquete(id);
 		p.getCliente().setFirma(firma);
 		p.setEstado(EstadoPaquete.ENTREGADO);
 	}
@@ -62,9 +65,26 @@ public class Repartidor implements InterfazRepartidor {
 	public ArrayList<Paquete> ejecutarLecturaEntregasDia() {
 		return this.iC.solicitarListaPaquetes();
 	}
-	
-	/*public void escribirConfirmacionEntrega(Paquete p) {
-		//Non sirve para nada
-	}*/
+
+	@Override
+	public void escribirConfirmacionEntrega(Paquete p) {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String texto = null;
+		
+		System.out.print("Quere firmar?(responda si ou no): ");
+		try {
+			texto = br.readLine().toLowerCase();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (texto.equals("si")) {
+			aceptarPaquete(p.getId(), true);
+		} else if (texto.equals("no")) {
+			aceptarPaquete(p.getId(), false);
+		} else {
+			System.out.println("O introducido non se contempla");
+			escribirConfirmacionEntrega(p);
+		}
+	}
 	
 }

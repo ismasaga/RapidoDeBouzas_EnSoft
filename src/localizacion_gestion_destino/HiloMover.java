@@ -41,7 +41,7 @@ public class HiloMover extends Thread {
 		Destino proxDestino = lc.siguienteDestino();
 		if (proxDestino != null) {
 			System.out.println(
-					"\nDe camino al prÃ³ximo destino: (" + proxDestino.getX() + ", " + proxDestino.getY() + ")\n");
+					"\nDe camino al próximo destino: (" + proxDestino.getX() + ", " + proxDestino.getY() + ")\n");
 			while (posActual.getX() <= proxDestino.getX() && posActual.getY() <= proxDestino.getY()) {
 				// recalcular al tener el camion una nueva posicion
 				actualizarTiempos(i); // si es 0, se calcula todo lo que andara el camion, para asi guardarlo en
@@ -58,7 +58,7 @@ public class HiloMover extends Thread {
 			this.camion.setLocalizacion(lc.siguienteDestino());
 			this.destinosEntregados.add(lc.siguienteDestino());
 
-			System.out.println("Nueva posiciÃ³n del camion: ");
+			System.out.println("Nueva posición del camion: ");
 			lc.imprimirDestino(this.camion.getLocalizacion());
 
 			// introduzco en el array de entregas y lo quito del camion
@@ -70,9 +70,9 @@ public class HiloMover extends Thread {
 			// (0, 0) (0.36, 0.72) (0.72, 1.45) (1.09, 2.18)(1.45,2.90)(1.81, 3.63)(2, 4)
 			// (2.18, 4.36)
 
-//			lc.simularEntrega(this.camion.getLocalizacion());
-			System.out.println("Notificando llegada a destino...\n");
 			lc.notificarDetencion();
+			lc.simularEntrega(this.camion.getLocalizacion());
+			System.out.println("Notificando llegada a destino...\n");
 
 		} else {
 			System.out.println("No hay mas destinos para entregar paquetes!");

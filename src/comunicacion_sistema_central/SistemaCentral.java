@@ -12,30 +12,30 @@ import principal.*;
 
 public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	private int dev=0;	//akl iniciar la clase es 0, pero se va a ir modificando
-	
+
 	@Override
 	public boolean escribirTiempoAleatorio(Camion c) {		//fichero de escritura aleatorio de camion
 		return escribir_camion(c);
 	}
-	
+
 	@Override
 	public boolean escribirConfirmacionEntrega(Paquete p) {		//se escribe en fichero confirmacion de entrega de paquete
 		return escribir_paquete(p);
 	}
-	
+
 	@Override
 	public ArrayList<Paquete> solicitarPaquetesAEntregar() {		//leo todas las entregas y devuelvo un array con las entregas todas
 		return leer_archivo_entregas();
 	}
-	
+
 	@Override
 	public Paquete solicitarDevolucion() {		//extrae una devolucion de la lista de devoluciones del fichero
 		ArrayList<Paquete> array = leer_archivo_devoluciones();
 		dev++;
 		return array.get(dev);	//cada vez devuelve el array siguiente al que cogio  antes
-		
+
 	}
-	
+
 	@Override
 	public boolean notificarDetencion(Camion c) {
 		//System.out.println("Detención de camión en destino");
@@ -43,141 +43,147 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 		System.out.println("No implementada");
 		return true;
 	}
-	
+
 	@Override
 	public ArrayList<String> listarParadas(){
 		System.out.println("No implementada");
 		return null;
 	}
-	
+
 	@Override
 	public void confirmarPaquete(Paquete p) {
 		p.setEstado (EstadoPaquete.ENTREGADO);				//suponiendo que uno de las opciones de estado de paquete sea entregado
 	}
-	
+
 	private ArrayList<Paquete> leer_archivo_entregas () {
 		String archivo = "fichero_entregas.csv";
 		ArrayList <Paquete> array = new ArrayList <Paquete>();
 		String cadena;
-        FileReader f = null;
-        
+		FileReader f = null;
+
 		try {
 			f = new FileReader(archivo);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        BufferedReader b = new BufferedReader(f);
-        try {
+		BufferedReader b = new BufferedReader(f);
+		try {
 			while((cadena = b.readLine())!=null) {
-				
+
 				StringTokenizer st = new StringTokenizer(cadena,";");
-				
+
 				String dni = st.nextToken();
 				String nombre = st.nextToken();
 				float pos_x = Float.parseFloat(st.nextToken());
 				float pos_y = Float.parseFloat(st.nextToken());
 				String tel = st.nextToken();
 				String id_paq = st.nextToken();
-				
+
 				Destino des = new Destino (pos_x, pos_y);
 				Cliente cli = new Cliente (dni, nombre, des, tel, false);		// estoy metiendo la firma a false
-				
-				Paquete p = new Paquete(id_paq, des, cli, null, null, null, false, null);
-				
+
+				Paquete p = new Paquete(id_paq, des, cli, null, null, null, false, EstadoPaquete.EN_REPARTO);
+
 				array.add(p);
-				
+
 			}
 		} catch (NumberFormatException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        
-        try {
+
+		try {
 			b.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        return array;
+
+		return array;
 	}
-	
+
 	private ArrayList<Paquete> leer_archivo_devoluciones () {
 		String archivo = "fichero_devoluciones.csv";
 		ArrayList<Paquete> array = new ArrayList<Paquete>();
 		Paquete p = null;
 		String cadena;
-        FileReader f = null;
-        
+		FileReader f = null;
+
 		try {
 			f = new FileReader(archivo);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        BufferedReader b = new BufferedReader(f);
-        try {
+		BufferedReader b = new BufferedReader(f);
+		try {
 			while((cadena = b.readLine())!=null) {
-				
+
 				StringTokenizer st = new StringTokenizer(cadena,";");
-				
+
 				String dni = st.nextToken();
 				String nombre = st.nextToken();
 				float pos_x = Float.parseFloat(st.nextToken());
 				float pos_y = Float.parseFloat(st.nextToken());
 				String tel = st.nextToken();
 				String id_paq = st.nextToken();
-				
+
 				Destino des = new Destino (pos_x, pos_y);
 				Cliente cli = new Cliente (dni, nombre, des, tel, false);		// estoy metiendo la firma a false
-				
-				p = new Paquete(id_paq, des, cli, null, null, null, false, null);
-				
+
+				p = new Paquete(id_paq, des, cli, null, null, null, false, EstadoPaquete.DEVOLUCION);
+
 				array.add(p);
 			}
 		} catch (NumberFormatException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        
-        try {
+
+		try {
 			b.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        return array;
+
+		return array;
 	}
 
 	private boolean escribir_camion (Camion c) {
-		try{
-		    String filename= "fichero_escritura.csv";
-		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-		    fw.write(c.getLocalizacion().getX() + "; " + c.getLocalizacion().getY() + "; " + c.getEstadoCamion() + "; " + "1 hora 12 minutos \n");
-		    fw.close();
-		}
-		catch(IOException ioe) {
-		    System.err.println("IOException: " + ioe.getMessage());
-		    return false;
-		}
+		String filename= "fichero_escritura.csv";
+		FileWriter fw = null;
 		
+		try {
+			fw = new FileWriter(filename, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} try {
+			fw.write(c.getLocalizacion().getX() + "; " + c.getLocalizacion().getY() + "; " + c.getEstadoCamion() + "; " + "1 hora 12 minutos \n");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} try {
+			fw.close();
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+		System.err.println("Escrito");
 		return true;
 	}
 
 	private boolean escribir_paquete (Paquete p) {
 		try{
-		    String filename= "fichero_escritura.csv";
-		    FileWriter fw = new FileWriter(filename,true); //the true will append the new data
-		    fw.write(p.getId() + "; " + p.getCliente().getDni() + "\n");
-		    fw.close();
+			String filename= "fichero_escritura.csv";
+			FileWriter fw = new FileWriter(filename,true); //the true will append the new data
+			fw.write(p.getId() + "; " + p.getCliente().getDni() + "\n");
+			fw.close();
 		}
 		catch(IOException ioe) {
-		    System.err.println("IOException: " + ioe.getMessage());
-		    return false;
+			System.err.println("IOException: " + ioe.getMessage());
+			return false;
 		}
-		
+
 		return true;
 	}
 }

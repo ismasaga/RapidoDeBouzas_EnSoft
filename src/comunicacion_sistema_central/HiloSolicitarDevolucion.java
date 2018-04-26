@@ -12,12 +12,13 @@ public class HiloSolicitarDevolucion extends Thread {
 	}
 	
 	public void run() {
-		Paquete devoluciones = ic.solicitarDevolucionAleatoria();
+		Paquete devol = ic.solicitarDevolucionAleatoria();
 		try {
 			sleep(10000); // 10 segundos se escribe la posicion del camion en el fichero
 		} catch(InterruptedException e) {
 			System.out.println("Excepcion en HiloEscribirAleatorio.run(): " + e);
 		}
+		System.out.println("Nova devolución: [" + devol.getId() + ";" + devol.getEstado() + ";" + devol.getCliente().getDni() + ";(x = " + devol.getD().getX() + ", y = " + devol.getD().getY() + ")");
 	}
 	
 }

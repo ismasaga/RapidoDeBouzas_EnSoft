@@ -33,8 +33,8 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	// this.hm.start();
 	// }
 
-	public LocalizacionControl(ArrayList<Destino> destinos) {
-		this.ic = new Controlador();
+	public LocalizacionControl(ArrayList<Destino> destinos, InterfazControlador ic) {
+		this.ic = ic;
 		this.camion = new Camion();
 		this.destinos = destinos;
 		this.hipotenusas = new HashMap<>();
@@ -232,7 +232,7 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	}
 
 	public void simularEntrega(Destino d) {
-		int aleatorio = (int) (Math.random() * 3 + 1); // cambiar a (Math.random() * 300 + 300) (600s, 10 min x 60s como
+		int aleatorio = (int) (Math.random() * 60 + 5); // cambiar a (Math.random() * 300 + 300) (600s, 10 min x 60s como
 														// maximo e 300s como min)
 		System.out.println("Hay parada en destino (" + d.getX() + ", " + d.getY() + ") de " + aleatorio + "s");
 
