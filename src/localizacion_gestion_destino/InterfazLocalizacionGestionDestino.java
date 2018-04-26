@@ -50,5 +50,5 @@ public interface InterfazLocalizacionGestionDestino {
 
 	public Float getPorcentajeTiempoEntregas();
 
-	public HiloMover getHm(); // para conseguir el hilo de mover
+//	public HiloMover getHm(); // para conseguir el hilo de mover
 }

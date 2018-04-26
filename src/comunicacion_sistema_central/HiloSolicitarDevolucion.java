@@ -1,4 +1,4 @@
-package comunicacion_sistema_central;
+/*package comunicacion_sistema_central;
 
 import controlador.InterfazControlador;
 import principal.*;
@@ -21,4 +21,4 @@ public class HiloSolicitarDevolucion extends Thread {
 		System.out.println("Nova devolución: [" + devol.getId() + ";" + devol.getEstado() + ";" + devol.getCliente().getDni() + ";(x = " + devol.getD().getX() + ", y = " + devol.getD().getY() + ")");
 	}
 	
-}
+}*/

@@ -25,28 +25,6 @@ public class Controlador implements InterfazControlador {
 	}
 
 	/**
-	 * Se quedan hay que metelos no diagrama de clases
-	 * @return
-	 */
-	public ArrayList<Paquete> getListaDevolucion() {
-		return listaDevolucion;
-	}
-
-	public void setListaDevolucion(ArrayList<Paquete> listaDevolucion) {
-		this.listaDevolucion = listaDevolucion;
-	}
-
-	public void setListaEntrega(ArrayList<Paquete> listaEntrega) {
-		this.listaEntrega = listaEntrega;
-	}
-
-
-
-	//---------------------------------------------------------------------------
-
-
-
-	/**
 	 * Metodo que redirixe a notificacion de parada que proven do
 	 * subsistema de localizacion e xestion
 	 */
@@ -151,7 +129,26 @@ public class Controlador implements InterfazControlador {
 
 	@Override
 	public void modificarPaquete(Paquete p) {
-		// Busco polo id e igualo todo menos o id (non se pode modificar)
+		for (Paquete paq : listaEntrega) {
+			if (paq.getId().equals(p.getId())) {
+				paq.setCliente(p.getCliente());
+				paq.setD(p.getD());
+				paq.setDniAlternativo(p.getDniAlternativo());
+				paq.setEstado(p.getEstado());
+				paq.setNombreAlternativo(p.getNombreAlternativo());
+				paq.setObservaciones(p.getObservaciones());
+			}
+		}
+		for (Paquete paq : listaDevolucion) {
+			if (paq.getId().equals(p.getId())) {
+				paq.setCliente(p.getCliente());
+				paq.setD(p.getD());
+				paq.setDniAlternativo(p.getDniAlternativo());
+				paq.setEstado(p.getEstado());
+				paq.setNombreAlternativo(p.getNombreAlternativo());
+				paq.setObservaciones(p.getObservaciones());
+			}
+		}
 	}
 
 	/**
@@ -194,8 +191,7 @@ public class Controlador implements InterfazControlador {
 
 	@Override
 	public Paquete confirmarPaquete() {
-		// VER SE FAI FALLA
-		return null;
+		return new Paquete("123654", new Destino(2.0f, 5.0f), new Cliente("35265487D", "Jumersindo", new Destino(2.0f, 5.0f), "981236541", true), "No hay observaciones", null, null, true, EstadoPaquete.ENTREGADO);
 	}
 
 	/**
@@ -206,6 +202,7 @@ public class Controlador implements InterfazControlador {
 	public Paquete solicitarDevolucionAleatoria() {
 		Paquete p = sc.solicitarDevolucion();
 		listaDevolucion.add(p);
+		il.anadirDestino(p.getD());
 		return p;
 	}
 
