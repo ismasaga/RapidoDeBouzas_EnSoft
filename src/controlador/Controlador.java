@@ -9,20 +9,16 @@ public class Controlador implements InterfazControlador {
 
 	private ArrayList<Paquete> listaEntrega;
 	private ArrayList<Paquete> listaDevolucion;
-	private SistemaCentral sc = new SistemaCentral();
-	
-	/*private Controlador() {
-		// FACER SINGLETON PARA INSTANCIAR O CONTROLADOR (QUE INSTANCIA LalizacionControl)
-	}*/
+	private SistemaCentral sc;
 	
 	public Controlador() {
-		
+		 sc = new SistemaCentral();
 	}
 	
-/**
- * Se quedan hay que metelos no diagrama de clases
- * @return
- */
+	/**
+	 * Se quedan hay que metelos no diagrama de clases
+	 * @return
+	 */
 	public ArrayList<Paquete> getListaDevolucion() {
 		return listaDevolucion;
 	}
@@ -47,6 +43,7 @@ public class Controlador implements InterfazControlador {
 	 */
 	@Override
 	public void notificarDetencion(Camion c) {
+		
 		sc.escribirTiempoAleatorio(c);
 	}
 
@@ -138,6 +135,7 @@ public class Controlador implements InterfazControlador {
 	 */
 	@Override
 	public ArrayList<Paquete> solicitarListaPaquetes() {
+		listaEntrega = sc.solicitarPaquetesAEntregar();
 		return listaEntrega;
 	}
 

@@ -38,7 +38,7 @@ public class Repartidor implements InterfazRepartidor {
 	public void aceptarPaquete(String id, boolean firma) {
 		Paquete p=this.iC.solicitarPaquete(id);
 		p.getCliente().setFirma(firma);
-		//this.iC.modificarPaquete(p);
+		p.setEstado(EstadoPaquete.ENTREGADO);
 	}
 	
 	@Override
