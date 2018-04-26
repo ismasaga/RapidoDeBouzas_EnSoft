@@ -13,14 +13,20 @@ public class HiloEscribirAleatorio extends Thread {
 	}
 	
 	public void run() {
-		while(true) {
+		boolean flag = true;
+		while(flag) {
 			Camion c = ic.recibirCamion();
-			sc.escribirTiempoAleatorio(c);
+			if (c != null) {
+				System.err.println("Fio");
+				sc.escribirTiempoAleatorio(c);
+			}
 			try {
-				sleep(10000); // 10 segundos se escribe la posicion del camion en el fichero
+				sleep(15000); // 15 segundos se escribe la posicion del camion en el fichero
 			} catch(InterruptedException e) {
 				System.out.println("Excepcion en HiloEscribirAleatorio.run(): " + e);
 			}
+			if (c.getDestinos().isEmpty())
+				flag = false;
 		}
 	}
 }

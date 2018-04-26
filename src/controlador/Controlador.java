@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 
+import comunicacion_sistema_central.HiloEscribirAleatorio;
 import comunicacion_sistema_central.InterfazComunicacionSistemaCentral;
 import comunicacion_sistema_central.SistemaCentral;
 import localizacion_gestion_destino.InterfazLocalizacionGestionDestino;
@@ -58,7 +59,7 @@ public class Controlador implements InterfazControlador {
 			if (p.getD().getX() == d.getX() && p.getD().getY() == d.getY()) {
 				System.out.println("Entregouse un paquete");
 				rep.escribirConfirmacionEntrega(p);
-				sc.escribirTiempoAleatorio(c);
+				sc.escribirConfirmacionEntrega(p);
 				return;
 			}
 		}
@@ -66,7 +67,7 @@ public class Controlador implements InterfazControlador {
 			if (p.getD().getX() == d.getX() && p.getD().getY() == d.getY()) {
 				System.out.println("Recolleuse unha devolución");
 				rep.escribirConfirmacionEntrega(p);
-				sc.escribirTiempoAleatorio(c);
+				sc.escribirConfirmacionEntrega(p);
 				return;
 			}
 		}
@@ -175,6 +176,8 @@ public class Controlador implements InterfazControlador {
 			listaDestinos.add(new Destino(p.getD()));
 		}
 		il = new LocalizacionControl(listaDestinos, this);
+		HiloEscribirAleatorio fio = new HiloEscribirAleatorio(sc, this);
+		fio.start();
 		return listaEntrega;
 	}
 
@@ -186,8 +189,7 @@ public class Controlador implements InterfazControlador {
 
 	@Override
 	public Camion recibirCamion() {
-		// VER SE FAI FALLA
-		return null;
+		return il.recibirCamion();
 	}
 
 	@Override

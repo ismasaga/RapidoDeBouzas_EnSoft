@@ -232,7 +232,8 @@ public class LocalizacionControl implements InterfazLocalizacionGestionDestino {
 	}
 
 	public void simularEntrega(Destino d) {
-		int aleatorio = (int) (Math.random() * 60 + 5); // cambiar a (Math.random() * 300 + 300) (600s, 10 min x 60s como
+		this.camion.setEstadoCamion(EstadoCamion.ENTREGA);
+		int aleatorio = (int) (Math.random() * 10 + 5); // cambiar a (Math.random() * 300 + 300) (600s, 10 min x 60s como
 														// maximo e 300s como min)
 		System.out.println("Hay parada en destino (" + d.getX() + ", " + d.getY() + ") de " + aleatorio + "s");
 

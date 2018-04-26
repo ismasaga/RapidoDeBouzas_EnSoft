@@ -6,12 +6,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.StringTokenizer;
 
+import controlador.InterfazControlador;
 import principal.*;
 
 public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	private int dev=0;	//akl iniciar la clase es 0, pero se va a ir modificando
+	HiloEscribirAleatorio fio;
 
 	@Override
 	public boolean escribirTiempoAleatorio(Camion c) {		//fichero de escritura aleatorio de camion
@@ -154,13 +157,20 @@ public  class SistemaCentral implements InterfazComunicacionSistemaCentral {
 	private boolean escribir_camion (Camion c) {
 		String filename= "fichero_escritura.csv";
 		FileWriter fw = null;
+		LinkedHashMap<Destino, Tiempo> lista = c.getDestinos();
+		Tiempo t = null;
 		
+		for (Destino d : lista.keySet()) {
+			t = lista.get(d);
+		}
+		if (t == null)
+			t = new Tiempo(0, 0, 0);
 		try {
 			fw = new FileWriter(filename, true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} try {
-			fw.write(c.getLocalizacion().getX() + "; " + c.getLocalizacion().getY() + "; " + c.getEstadoCamion() + "; " + "1 hora 12 minutos \n");
+			fw.write(c.getLocalizacion().getX() + "; " + c.getLocalizacion().getY() + "; " + c.getEstadoCamion() + "; " + t.getHora() + ":" + t.getMinuto() + ":" + t.getSegundo() + "\n");
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} try {

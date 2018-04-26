@@ -52,6 +52,7 @@ public class HiloMover extends Thread {
 				this.camion.setLocalizacion(new Destino(posActual.getX(), posActual.getY()));
 
 //				lc.simularParada(proxDestino);
+				this.camion.setEstadoCamion(EstadoCamion.TRANSITO);
 				i++;
 			}
 
@@ -72,6 +73,7 @@ public class HiloMover extends Thread {
 
 			lc.notificarDetencion();
 			lc.simularEntrega(this.camion.getLocalizacion());
+			this.camion.setEstadoCamion(EstadoCamion.TRANSITO);
 			System.out.println("Notificando llegada a destino...\n");
 
 		} else {
